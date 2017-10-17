@@ -1,0 +1,47 @@
+<?php
+
+/**
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * @version 1.0
+ * @copyright Copyright: 2009-2010 Artem Prilutskiy.
+ * @author Artem Prilutskiy <cyanide.burnout@gmail.com>
+ * @access public
+ * @package PHP Aptitude
+ */
+
+  require_once("config.php");
+  require_once("packages.php");
+
+  if (isset($_GET["package"]))
+  {
+    $name = $_GET["package"];
+    $packages = getPackages();
+    if (array_key_exists($name, $packages))
+    {
+      header("Content-Type: application/x-install-instructions");
+      header("Content-Disposition: attachment; filename=\"${name}.install\"");
+      echo "[install]\n";
+      echo "catalogues = ".REPOSITORY_NAME."\n";
+      echo "package = ".$name."\n";
+      echo "\n";
+      echo "[".REPOSITORY_NAME."]\n";
+      echo "name = ".REPOSITORY_DESCRIPTION."\n";
+      echo "uri = ".REPOSITORY_LOCATION."\n";
+      echo "dist = ".INSTALL_DISTRIBUTION."\n";
+      echo "components = ".INSTALL_COMPONENTS."\n";
+    }
+  }
+?>
